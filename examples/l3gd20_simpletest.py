@@ -7,6 +7,7 @@ import adafruit_l3gd20
 
 # Hardware I2C setup:
 I2C = board.I2C()  # uses board.SCL and board.SDA
+# I2C = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
 # Initializes L3GD20 object using default range, 250dps
 SENSOR = adafruit_l3gd20.L3GD20_I2C(I2C)
 # Initialize L3GD20 object using a custom range and output data rate (ODR).
