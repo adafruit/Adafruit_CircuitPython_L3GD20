@@ -38,8 +38,6 @@ board.DISPLAY.root_group = main_group
 while True:
     # update the text of the label(s) to show the sensor readings
     x, y, z = sensor.gyro
-    display_output_label.text = (
-        f"Angular Vel (rad/s):\nx:{x:.2f}\ny:{y:.2f}\nz:{z:.2f}"
-    )
+    display_output_label.text = f"Angular Vel (rad/s):\nx:{x:.2f}\ny:{y:.2f}\nz:{z:.2f}"
     # wait for a bit
     time.sleep(0.5)
