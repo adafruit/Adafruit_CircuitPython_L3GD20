@@ -33,14 +33,15 @@ Implementation Notes
 from math import radians
 from struct import unpack
 
-from micropython import const
 from adafruit_register.i2c_struct import Struct
+from micropython import const
 
 try:
     from typing import Tuple
-    from digitalio import DigitalInOut
+
     from busio import I2C, SPI
     from circuitpython_typing import WriteableBuffer
+    from digitalio import DigitalInOut
 except ImportError:
     pass
 
@@ -73,7 +74,6 @@ _L3GD20_SENSITIVITY_500DPS = 0.0175  ## Roughly 45/256
 _L3GD20_SENSITIVITY_2000DPS = 0.070  ## Roughly 18/256
 
 
-# pylint: disable=no-member
 class L3GD20:
     """
     Driver for the L3GD20 3-axis Gyroscope sensor.
@@ -96,16 +96,14 @@ class L3GD20:
                     Defaults to :const:`L3DS20_RATE_100HZ`
     """
 
-    def __init__(
-        self, rng: int = L3DS20_RANGE_250DPS, rate: int = L3DS20_RATE_100HZ
-    ) -> None:
+    def __init__(self, rng: int = L3DS20_RANGE_250DPS, rate: int = L3DS20_RATE_100HZ) -> None:
         chip_id = self.read_register(_ID_REGISTER)
-        if chip_id not in (_L3GD20_CHIP_ID, _L3GD20H_CHIP_ID):
+        if chip_id not in {_L3GD20_CHIP_ID, _L3GD20H_CHIP_ID}:
             raise RuntimeError(
                 f"bad chip id ({chip_id:#x} != {_L3GD20_CHIP_ID:#x} or {_L3GD20H_CHIP_ID:#x})"
             )
 
-        if rng not in (L3DS20_RANGE_250DPS, L3DS20_RANGE_500DPS, L3DS20_RANGE_2000DPS):
+        if rng not in {L3DS20_RANGE_250DPS, L3DS20_RANGE_500DPS, L3DS20_RANGE_2000DPS}:
             raise ValueError(
                 "Range value must be one of L3DS20_RANGE_250DPS, "
                 "L3DS20_RANGE_500DPS, or L3DS20_RANGE_2000DPS"
@@ -248,7 +246,7 @@ class L3GD20_I2C(L3GD20):
         address: int = 0x6B,
         rate: int = L3DS20_RATE_100HZ,
     ) -> None:
-        from adafruit_bus_device import (  # pylint: disable=import-outside-toplevel
+        from adafruit_bus_device import (  # noqa: PLC0415
             i2c_device,
         )
 
@@ -316,7 +314,7 @@ class L3GD20_SPI(L3GD20):
 
     """
 
-    def __init__(  # pylint: disable=too-many-arguments
+    def __init__(
         self,
         spi_busio: SPI,
         cs: DigitalInOut,
@@ -324,7 +322,7 @@ class L3GD20_SPI(L3GD20):
         baudrate: int = 100000,
         rate: int = L3DS20_RATE_100HZ,
     ) -> None:
-        from adafruit_bus_device import (  # pylint: disable=import-outside-toplevel
+        from adafruit_bus_device import (  # noqa: PLC0415
             spi_device,
         )
 
